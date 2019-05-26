@@ -120,7 +120,7 @@ function _os_based {
       "$1_osx" "${@:2}"
     ;;
 
-    Linux)
+    Linux|Cygwin)
       "$1_linux" "${@:2}"
     ;;
 	
