@@ -96,6 +96,7 @@ AWK_GPG_VER_CHECK='
 
 # This is 1 for gpg version 2.1 or greater, otherwise 0
 GPG_VER_21="$($SECRETS_GPG_COMMAND --version | gawk "$AWK_GPG_VER_CHECK")"
+GPG_PINENTRY_MODE=${SECRETS_GPG_PINENTRY_MODE:-"loopback"}
 
 
 # Bash:
@@ -682,7 +683,7 @@ function _decrypt {
   fi
 
   if [[ "$GPG_VER_21" -eq 1 ]]; then
-    args+=( "--pinentry-mode" "loopback" )
+    args+=( "--pinentry-mode" "$GPG_PINENTRY_MODE" )
   fi
 
   if [[ -z "$_SECRETS_VERBOSE" ]]; then
