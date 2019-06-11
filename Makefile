@@ -7,7 +7,10 @@ DESTDIR?=
 #
 
 git-secret: src/version.sh src/_utils/*.sh src/commands/*.sh src/main.sh
-	cat $^ > "$@"; \
+	cat src/version.sh > "$@"; \
+	ls src/_utils/*.sh | sort -d | xargs cat >> "$@"; \
+	ls src/commands/*.sh | sort -d | xargs cat >> "$@"; \
+	cat src/main.sh >> "$@"; \
 	chmod +x git-secret; sync
 
 .PHONY: all
