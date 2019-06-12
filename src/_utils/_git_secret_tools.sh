@@ -96,7 +96,8 @@ AWK_GPG_VER_CHECK='
 
 # This is 1 for gpg version 2.1 or greater, otherwise 0
 GPG_VER_21="$($SECRETS_GPG_COMMAND --version | gawk "$AWK_GPG_VER_CHECK")"
-GPG_PINENTRY_MODE=${SECRETS_GPG_PINENTRY_MODE:-"loopback"}
+readonly GPG_PINENTRY_MODE_LOOPBACK="loopback"
+GPG_PINENTRY_MODE=${SECRETS_GPG_PINENTRY_MODE:-$GPG_PINENTRY_MODE_LOOPBACK}
 
 
 # Bash:
@@ -683,6 +684,10 @@ function _decrypt {
   fi
 
   if [[ "$GPG_VER_21" -eq 1 ]]; then
+    # Force loopback mode if password field is provided
+    if [[ -n "$passphrase" ]]; then
+      GPG_PINENTRY_MODE=$GPG_PINENTRY_MODE_LOOPBACK
+    fi
     args+=( "--pinentry-mode" "$GPG_PINENTRY_MODE" )
   fi
 
