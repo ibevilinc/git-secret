@@ -1,5 +1,35 @@
 # Changelog
 
+## Version 0.3.0
+
+### Features
+
+- Support SECRETS_PINENTRY env var for gnupg --pinentry-mode parameter (#221)
+- Show output from gnupg if 'hide' fails (#516)
+- Add support for Busybox (#478)
+
+### Bugfixes
+
+- Use OSX's mktemp on OSX, even if there's another version in PATH. (#485)
+- Make rsync a build requirement on debian (#500)
+- Use gnupg1, not gnupg2, when tests specify gnupg1 (#241) 
+- Note dependencies gawk, bash, and coreutils in linux packages (#493)
+- Handle case of key having no email and a comment (#527)
+- Avoid blank lines from output of 'clean -v'
+
+## Misc
+
+- Improve messaging and logic around deleting tmp files.
+- Add note about secrets and old keys (#499)
+- Transition build process from python 2 to python 3 (#487)
+- Upgrade build process from ansible 2.5 to ansible 2.8
+- Fix build process when installing gnupg2 source deps on Ubuntu
+- Close file descriptor 3 when running gnupg subprocesses (#521)
+- Small optimization in 'hide'
+- Improve code comments
+- Update docs to note that git-secret repos modified by git-secret 0.2.3 and
+  later are not backward compatible with pre-0.2.3 versions of git-secret. (#536)
+
 ## Version 0.2.6
 
 ### Features
@@ -105,7 +135,9 @@
 ### Features
 
 - Added `-m` option to `hide` command, files will only be hidden when modifications are detected (#92)
-- Changed how path mappings file works: colon delimited FSDB (#92)
+- Changed how path mappings file works: colon delimited FSDB in `.gitsecret/paths/mapping.cfg', so git-secret
+  can store checksums of hidden files. Note this means git-secret repos modified by git-secret 0.2.3 
+  or later are not backward compatible with pre-0.2.3 versions of git-secret. (#92)
 - `git secret init` now adds `random_seed` to `.gitignore` (#93)
 
 ### Bugfixes

@@ -85,14 +85,12 @@ function teardown {
 
   [ "$status" -eq 0 ]
 
+  ## permissions should match.
   local secret_perm
   local file_perm
-  secret_perm=$(ls -l "$FILE_TO_HIDE$SECRETS_EXTENSION" | cut -d' ' -f1)
-  file_perm=$(ls -l "$FILE_TO_HIDE" | cut -d' ' -f1)
-
-  # text prefixed with '# ' and sent to file descriptor 3 is 'diagnostic' (debug) output for devs
+  file_perm=$($SECRETS_OCTAL_PERMS_COMMAND "$FILE_TO_HIDE")
+  secret_perm=$($SECRETS_OCTAL_PERMS_COMMAND "$FILE_TO_HIDE$SECRETS_EXTENSION")
   #echo "# secret_perm: $secret_perm, file_perm: $file_perm" >&3    
-
   [ "$secret_perm" = "$file_perm" ]
 
   [ -f "$FILE_TO_HIDE" ]
@@ -185,4 +183,24 @@ function teardown {
 
   # Cleaning up:
   uninstall_fixture_full_key "$TEST_SECOND_USER" "$second_fingerprint"
+}
+
+@test "run 'reveal' with SECRETS_PINENTRY=loopback" {
+  rm -f "$FILE_TO_HIDE"
+
+  local password=$(test_user_password "$TEST_DEFAULT_USER")
+  SECRETS_PINENTRY=loopback run git secret reveal -d "$TEST_GPG_HOMEDIR" -p "$password"
+  [ "$status" -eq 0 ]
+}
+
+@test "run 'reveal' with SECRETS_PINENTRY=error" {
+  if [[ "$GPG_VER_MIN_21" -ne 1 ]]; then
+    skip "this test is skipped on gpg before version 2.1"
+  fi
+
+  rm -f "$FILE_TO_HIDE"
+
+  local password=$(test_user_password "$TEST_DEFAULT_USER")
+  SECRETS_PINENTRY=error run git secret reveal -d "$TEST_GPG_HOMEDIR" -p "$password"
+  [ "$status" -ne 0 ]
 }

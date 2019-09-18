@@ -13,13 +13,13 @@ RUN dnf clean all \
 	net-tools \
 	openssh-server \
 	openssl-devel \
-	python2-devel \
-	python2-pip \
+	python3-devel \
+	python3-pip \
 	redhat-lsb \
 	redhat-rpm-config \
 	sudo \
 	systemd \
- && pip install --upgrade pip \
+ && pip3 install --upgrade pip \
  && dnf clean all \
  && if ! getent passwd <%= @username %>; then \
       useradd -d /home/<%= @username %> -m -s /usr/bin/bash -p '*' <%= @username %>; \

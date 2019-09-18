@@ -1,9 +1,9 @@
 FROM alpine:latest
 
+# don't install coreutils on Alpine, so we get busybox versions of ps, stat, and ls. See #475 
 RUN apk add --no-cache --update \
 	bash \
 	build-base \
-	coreutils \
 	curl \
 	findutils \
 	gcc \
@@ -16,12 +16,12 @@ RUN apk add --no-cache --update \
 	openssh-sftp-server \
 	openssl-dev \
 	py-boto \
-	py2-pip \
-	python2-dev \
+	py-pip \
+	python3-dev \
 	rsyslog \
 	sudo \
 	xz \
- && pip install --upgrade pip \
+ && pip3 install --upgrade pip \
  && if ! getent passwd <%= @username %>; then \
       adduser -h /home/<%= @username %> -s /bin/bash -D <%= @username %>; \
       passwd -d <%= @username %>; \
