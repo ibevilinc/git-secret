@@ -1,18 +1,22 @@
 # Changelog
 
-## {{Next Version}}
+## Version 0.3.3
 
 ### Bugfixes
 
 - In 'tell', warn about disabled, revoked, expired, or invalid keys (#552, #508, #317, #290, #283, #238)
 - Error if 'tell' is used on an email address with multiple keys (#552)
 - Don't let 'reveal' clobber secret files (#579)
+- Updated test key fixture that had expired (#607)
 
 ### Misc
 
 - Improve docs about using gpg with git-secret (#577)
+- Text improvements and More about security in git-secret.7 man page (#603)
 - Reflect changes in ruby bundler during build process
 - Upgrade build process to ansible 2.9
+- Use shellcheck 0.7.1 with CI, not 'latest' (#609)
+- Improve output of git-secret add
 
 ## Version 0.3.2
 
